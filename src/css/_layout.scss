@@ -1,0 +1,129 @@
+.picker_wrapper.no_alpha  .picker_alpha {
+    display: none;
+}
+//Always keep the editor on-screen, for screen readers:
+.picker_wrapper.no_editor .picker_editor {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+.picker_wrapper.no_cancel  .picker_cancel {
+    display: none;
+}
+
+
+.layout_default {
+
+    $width-gutter: 1em;
+    $width-slider: 1em;
+    
+    
+    &.picker_wrapper {
+        font-size: 8px;
+        width: 18em;
+        //Since we use "em"s for layout here, restore the correct font-size on elements with text:
+        input, button {
+            font-size: 1rem;
+        }
+        
+        padding: $width-gutter/2;
+        > * {
+            margin: $width-gutter/2;
+        }
+        
+        //https://stackoverflow.com/questions/29732575/line-break-in-multi-line-flexbox
+        //We use this to insert a line break after .picker_alpha,
+        //which lets us set .picker_sl to use all available space to the left of it (via flex-grow: 1),
+        //and we don't have to calculate the exact width for .picker_sl.
+        &::before {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 0;
+            order: 1;
+        }
+    }
+    
+    .color_container {
+        display: flex;
+        justify-content: space-between
+    }
+    
+    .picker_slider, .picker_selector {
+        padding: $width-slider/2;
+    }
+
+    .picker_sl {
+        //width: calc(100% - #{2*$width-gutter} - #{$width-slider});
+        flex: 1 1 auto;
+        margin-right: 8px;
+        
+        //With variable width, we need a pseudo-element to make it a square, whatever size:
+        &::before {
+            content: '';
+            display: block;
+            padding-bottom: 100%;
+        }
+    }
+    
+    .value_container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .value_container {
+        order: 1;
+        input {
+            width: 70px;
+            font-size: 10px;
+            padding: 0px;
+            border: 0px solid;
+            padding-left: 2px;
+            background: transparent;
+            color: #666666;
+            opacity: 1;
+            border-bottom: 1px solid #7070706b;
+        }
+        button {
+            font-size: 10px !important;
+            padding: 0px 4px !important;
+            color: #8E8E8E;
+            font-size: 8px;
+            // line-height: 12px;
+            background: #efefef;
+            border: 1px solid #d4d4d4;
+        }
+    }
+    
+    
+    .picker_sample {
+        order: 1;
+        margin: 0px 5px;
+        height: 12px;
+        width: 12px;
+        border-radius: 2px;
+    }
+    
+    .picker_save {
+        order: 1;
+    }
+    
+    .picker_done, .picker_cancel {
+        order: 1;
+    }
+    .saved_color {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .saved_color .color_box {
+        height: 10px;
+        width: 10px;
+        border-radius: 3px;
+        box-shadow: 1px 1px 5px #bbb9b9;
+        margin-right: 5px;
+        cursor: default;
+        position: relative;
+        box-shadow: 0 0 0 1px silver;
+      }
+
+}
