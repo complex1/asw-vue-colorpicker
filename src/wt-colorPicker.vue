@@ -19,6 +19,10 @@ export default {
     colorList: {
       type: Array,
       default: () => { return [] }
+    },
+    popup: {
+      type: Boolean,
+      default: true
     }
   },
   data: () => {
@@ -62,13 +66,17 @@ export default {
   },
   mounted () {
     this.content = this.value
-    this.colorPicker = new Picker({
+    const config = {
       parent: this.$el.children[1],
       popup: 'bottom',
       onChange: e => this.changeColor(e),
       onSave: e => this.saveColor(e),
       onClose: e => this.closePicker(e)
-    })
+    }
+    if (!this.popup) {
+      config.popup = false
+    }
+    this.colorPicker = new Picker(config)
   }
 }
 </script>
