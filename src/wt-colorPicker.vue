@@ -28,7 +28,18 @@ export default {
   data: () => {
     return {
       colorPicker: '',
-      content: ''
+      content: '',
+      isMounting: false
+    }
+  },
+  watch: {
+    value (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        if (this.colorPicker) {
+          this.content = newVal === 'transparent' ? '#00000000' : newVal
+          this.colorPicker.setColor(this.content, 'hex')
+        }
+      }
     }
   },
   methods: {
@@ -48,8 +59,10 @@ export default {
       saveColorDiv = null
     },
     changeColor (color) {
-      this.content = color.hex
-      this.$emit('input', this.content)
+      if(!this.isMounting) {
+        this.content = color.hex
+        this.$emit('input', this.content)
+      }
     },
     saveColor (color) {
       this.$emit('saveColor', color.hex)
@@ -65,7 +78,8 @@ export default {
     }
   },
   mounted () {
-    this.content = this.value
+    this.isMounting = true
+    this.content = this.value === 'transparent' ? '#00000000' : this.value
     const config = {
       parent: this.$el.children[1],
       popup: 'bottom',
@@ -77,6 +91,11 @@ export default {
       config.popup = false
     }
     this.colorPicker = new Picker(config)
+    this.colorPicker.setColor(this.content, 'hex')
+    this.isMounting = false
+  },
+  beforeDestroy () {
+    this.colorPicker.destroy()
   }
 }
 </script>
